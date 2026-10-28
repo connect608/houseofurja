@@ -22,18 +22,21 @@ import {
   toggleAdminStatusAction,
   deleteAdminUserAction,
 } from "@/lib/actions/userActions";
+import type { DatabaseStatus } from "@/lib/mongodb";
 import CategoryImageUploader from "./CategoryImageUploader";
 
 interface AdminDashboardProps {
   initialMenu: MenuRecord;
   currentUser?: SafeAdminUser;
   initialStaffList?: SafeAdminUser[];
+  dbStatus?: DatabaseStatus;
 }
 
 export default function AdminDashboard({
   initialMenu,
   currentUser,
   initialStaffList = [],
+  dbStatus,
 }: AdminDashboardProps) {
   const [menu, setMenu] = useState<MenuRecord>(initialMenu);
   const [activeTab, setActiveTab] = useState<string>(
@@ -575,7 +578,7 @@ export default function AdminDashboard({
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-[12%] 2xl:px-[15%] flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 sm:py-4">
           <div className="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto">
             <BrandMark />
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="border border-[#df8b32]/40 bg-[#df8b32]/10 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#df8b32]">
                 Admin Portal
               </span>
@@ -583,6 +586,29 @@ export default function AdminDashboard({
                 <span className="h-1.5 w-1.5 bg-green-600 rounded-full" />
                 <span className="font-bold uppercase tracking-wider text-[#2e1c18]">
                   {currentUser?.role === "superadmin" ? "superadmin" : "admin"}
+                </span>
+              </span>
+
+              {/* Database Status Indicator */}
+              <span
+                className={`inline-flex items-center gap-1.5 border px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs font-mono ${
+                  dbStatus?.isConnected
+                    ? "border-emerald-500/30 bg-emerald-50 text-emerald-800"
+                    : "border-red-500/30 bg-red-50 text-red-800 font-bold"
+                }`}
+                title={
+                  dbStatus?.isConnected
+                    ? `MongoDB Atlas connected (${dbStatus.dbName})`
+                    : dbStatus?.error || "MongoDB Atlas is not connected"
+                }
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    dbStatus?.isConnected ? "bg-emerald-600" : "bg-red-600 animate-pulse"
+                  }`}
+                />
+                <span>
+                  {dbStatus?.isConnected ? "MongoDB Atlas Live" : "DB Disconnected"}
                 </span>
               </span>
             </div>
@@ -634,6 +660,27 @@ export default function AdminDashboard({
           </div>
         </div>
       </header>
+
+      {/* Database Warning Banner if not connected to MongoDB Atlas */}
+      {dbStatus && !dbStatus.isConnected && (
+        <div className="border-b border-red-300 bg-red-50 px-4 py-3 text-xs text-red-900">
+          <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-[12%] 2xl:px-[15%] flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div className="flex items-start sm:items-center gap-2">
+              <span className="text-base leading-none">⚠️</span>
+              <div>
+                <strong>Database Not Connected to MongoDB Atlas:</strong>{" "}
+                <span>{dbStatus.error || "MONGODB_URI is missing or database is unreachable."}</span>
+                <p className="text-[11px] text-red-800/80 mt-0.5">
+                  Any updates made will be lost on page reload until MongoDB Atlas is connected in Vercel.
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0 text-[11px] font-semibold bg-red-100 text-red-900 px-2.5 py-1 border border-red-300 self-start md:self-auto">
+              Check Vercel Environment Variables & Atlas IP Access
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Admin Content: Full width with responsive scaling */}
       <main className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-[12%] 2xl:px-[15%] py-6 sm:py-8 flex-1 space-y-6 sm:space-y-8">

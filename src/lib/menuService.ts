@@ -169,13 +169,20 @@ export async function updateTodaysSpecial(dish: Dish): Promise<boolean> {
         if (spec) {
           const items = [...(spec.items || [])];
           items[0] = { ...dish, isAvailable: true };
-          await col.updateOne({ categoryKey: "Today's Special" }, { $set: { items } });
-          return true;
+          const res = await col.updateOne({ categoryKey: "Today's Special" }, { $set: { items } });
+          return res.acknowledged && (res.matchedCount > 0 || res.modifiedCount > 0);
         }
       }
+      return false;
     } catch (err) {
       console.error("MongoDB Atlas updateTodaysSpecial error:", err);
+      return false;
     }
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error("Cannot update Today's Special: MONGODB_URI is not configured in production.");
+    return false;
   }
 
   const menu = await getJsonMenuFallback();
@@ -207,13 +214,20 @@ export async function updateCategoryDish(
           const items = [...cat.items];
           const prevAvailable = items[dishIndex].isAvailable !== false;
           items[dishIndex] = { ...dish, isAvailable: prevAvailable };
-          await col.updateOne({ categoryKey }, { $set: { items } });
-          return true;
+          const res = await col.updateOne({ categoryKey }, { $set: { items } });
+          return res.acknowledged && (res.matchedCount > 0 || res.modifiedCount > 0);
         }
       }
+      return false;
     } catch (err) {
       console.error("MongoDB Atlas updateCategoryDish error:", err);
+      return false;
     }
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error("Cannot update dish: MONGODB_URI is not configured in production.");
+    return false;
   }
 
   const menu = await getJsonMenuFallback();
@@ -241,11 +255,18 @@ export async function addCategoryDish(categoryKey: string, dish: Dish): Promise<
           { categoryKey },
           { $push: { items: { ...dish, isAvailable: true } } }
         );
-        return res.modifiedCount > 0;
+        return res.acknowledged && (res.modifiedCount > 0 || res.matchedCount > 0);
       }
+      return false;
     } catch (err) {
       console.error("MongoDB Atlas addCategoryDish error:", err);
+      return false;
     }
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error("Cannot add dish: MONGODB_URI is not configured in production.");
+    return false;
   }
 
   const menu = await getJsonMenuFallback();
@@ -305,13 +326,20 @@ export async function toggleDishStatus(categoryKey: string, dishIndex: number): 
           const items = [...cat.items];
           const current = items[dishIndex].isAvailable !== false;
           items[dishIndex].isAvailable = !current;
-          await col.updateOne({ categoryKey }, { $set: { items } });
-          return true;
+          const res = await col.updateOne({ categoryKey }, { $set: { items } });
+          return res.acknowledged && (res.matchedCount > 0 || res.modifiedCount > 0);
         }
       }
+      return false;
     } catch (err) {
       console.error("MongoDB Atlas toggleDishStatus error:", err);
+      return false;
     }
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error("Cannot toggle dish status: MONGODB_URI is not configured in production.");
+    return false;
   }
 
   const menu = await getJsonMenuFallback();
@@ -539,11 +567,18 @@ export async function reorderCategoryDishes(
       if (db) {
         const col = db.collection<MongoMenuCategoryDoc>(MENU_COLLECTION);
         const res = await col.updateOne({ categoryKey }, { $set: { items } });
-        return res.acknowledged;
+        return res.acknowledged && (res.matchedCount > 0 || res.modifiedCount > 0);
       }
+      return false;
     } catch (err) {
       console.error("MongoDB Atlas reorderCategoryDishes error:", err);
+      return false;
     }
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    console.error("Cannot reorder dishes: MONGODB_URI is not configured in production.");
+    return false;
   }
 
   const menu = await getJsonMenuFallback();

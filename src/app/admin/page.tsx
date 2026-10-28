@@ -2,7 +2,10 @@ import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { getMenu } from "@/lib/menuService";
 import { getAllAdminUsers } from "@/lib/userService";
+import { checkDatabaseConnection } from "@/lib/mongodb";
 import AdminDashboard from "./AdminDashboard";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const currentUser = await getSessionUser();
@@ -10,7 +13,11 @@ export default async function AdminPage() {
     redirect("/admin/login");
   }
 
-  const menu = await getMenu(true);
+  const [menu, dbStatus] = await Promise.all([
+    getMenu(true),
+    checkDatabaseConnection(),
+  ]);
+
   const staffList = currentUser.role === "superadmin" ? await getAllAdminUsers() : [];
 
   return (
@@ -19,6 +26,7 @@ export default async function AdminPage() {
         initialMenu={menu}
         currentUser={currentUser}
         initialStaffList={staffList}
+        dbStatus={dbStatus}
       />
     </div>
   );
