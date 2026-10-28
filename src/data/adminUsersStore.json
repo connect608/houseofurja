@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "email": "admin@houseofurja.us",
+    "name": "Superadmin",
+    "passwordHash": "scrypt:f6d511a034e7e8301f6a59e7263ee146:7a8a3d7f8750a8544d05d3c96b94e5b2f08e3140c3152d03dae76fe8837d4c1a91b2a52f2091836f8b7b21397603357ceb92518d44067f97f51475eee0398baa",
+    "role": "superadmin",
+    "status": "active",
+    "createdAt": 1793190364173,
+    "updatedAt": 1793190364173
+  }
+]
