@@ -5,6 +5,9 @@ import MenuExplorer from "@/components/menu/MenuExplorer";
 import MenuJsonLd from "@/components/seo/MenuJsonLd";
 import { getMenu } from "@/lib/menuService";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Menu",
   description:

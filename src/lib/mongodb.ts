@@ -1,11 +1,13 @@
 import { MongoClient, Db } from "mongodb";
 import dns from "dns";
 
-// Ensure reliable SRV record resolution across all local and cloud environments
-try {
-  dns.setServers(["8.8.8.8", "1.1.1.1"]);
-} catch {
-  // Ignore in restricted environments
+// Only set custom DNS on Windows where local SRV lookups may fail
+if (process.platform === "win32") {
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch {
+    // Ignore in restricted environments
+  }
 }
 
 /**

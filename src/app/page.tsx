@@ -10,6 +10,9 @@ import VisitTeaserSection from "@/components/sections/VisitTeaserSection";
 import ScrollRevealManager from "@/components/layout/ScrollRevealManager";
 import { getMenu } from "@/lib/menuService";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: {
     absolute: "House of Urja | Contemporary Indian Kitchen in Houston",
