@@ -2,17 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  allowedDevOrigins: [
+    "*.airoapp.ai",
+    "83pwmz1x5e.preview.c24.airoapp.ai",
+    "localhost",
+    "127.0.0.1",
+  ],
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",
-    },
-  },
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
     },
   },
   async headers() {
