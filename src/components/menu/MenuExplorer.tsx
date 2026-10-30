@@ -193,18 +193,31 @@ export default function MenuExplorer({
   const hasMovedRef = useRef(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const urlParams = new URLSearchParams(window.location.search);
-    const query =
-      urlParams.get("tab") ||
-      urlParams.get("category") ||
-      window.location.hash.replace("#", "") ||
-      defaultCategory;
-    const matched = findCategory(categoryNames, query);
-    if (matched) {
-      setActiveCategory((current) => (current !== matched ? matched : current));
+    const checkClientCategory = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const query =
+        urlParams.get("tab") ||
+        urlParams.get("category") ||
+        window.location.hash.replace("#", "");
+      if (query) {
+        const matched = findCategory(categoryNames, query);
+        if (matched) {
+          setActiveCategory((current) => (current !== matched ? matched : current));
+        }
+      }
+    };
+
+    if (window.location.hash) {
+      queueMicrotask(checkClientCategory);
     }
-  }, [defaultCategory, categoryNames]);
+
+    window.addEventListener("hashchange", checkClientCategory);
+    window.addEventListener("popstate", checkClientCategory);
+    return () => {
+      window.removeEventListener("hashchange", checkClientCategory);
+      window.removeEventListener("popstate", checkClientCategory);
+    };
+  }, [categoryNames]);
 
   // Center active tab if it's not the first one on load or when active category changes
   useEffect(() => {
