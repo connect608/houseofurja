@@ -796,51 +796,49 @@ h2 i {
 }
 
 .menu-intro {
-  --parallax-y: 0px;
   position: relative;
   width: 100vw;
-  min-height: 115svh;
+  min-height: auto;
   margin-left: calc(50% - 50vw);
   overflow: clip;
   color: var(--color-cream);
   text-align: center;
   background: #17100d;
   isolation: isolate;
+  padding-block: clamp(5.5rem, 9vw, 8.5rem);
 }
 
-.menu-intro::before,
-.menu-intro::after {
+.menu-intro-bg {
   position: absolute;
-  content: '';
-  pointer-events: none;
-}
-
-.menu-intro::before {
-  z-index: -2;
-  inset: -7rem 0;
-  background: url('/assets/something-new-parallax.webp') center / cover
-    no-repeat;
-  transform: translate3d(0, calc(var(--parallax-y) - 4rem), 0);
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  background: url('/assets/something-new-parallax.webp') center / cover no-repeat;
   will-change: transform;
+  pointer-events: none;
+  z-index: -2;
 }
 
-.menu-intro::after {
-  z-index: -1;
+.menu-intro-overlay {
+  position: absolute;
   inset: 0;
   background: rgb(0 0 0 / 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .menu-intro-content {
-  display: flex;
-  position: sticky;
+  position: relative;
   z-index: 1;
-  top: 0;
-  min-height: 100svh;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  padding: clamp(4rem, 7vw, 6rem) 1.5rem;
+  padding: 0 1.5rem;
+  max-width: 64rem;
+  margin-inline: auto;
 }
 
 .menu-intro h2 {
@@ -926,10 +924,12 @@ h2 i {
 }
 
 .menu-featured .button-light:hover,
-.visit-copy .button-light:hover {
-  border-color: var(--color-turmeric);
-  color: var(--color-turmeric);
-  background: transparent;
+.menu-featured .button-light:focus-visible,
+.visit-copy .button-light:hover,
+.visit-copy .button-light:focus-visible {
+  border-color: #ffffff;
+  color: var(--color-espresso);
+  background: #ffffff;
 }
 
 .sample-menu {
@@ -2307,7 +2307,8 @@ footer {
   }
 
   .menu-intro {
-    min-height: 110svh;
+    min-height: auto;
+    padding-block: clamp(4.5rem, 8vw, 6.5rem);
   }
 
   .menu-intro-content {
@@ -2334,6 +2335,11 @@ footer {
 
   .footer-main > p {
     text-align: center;
+  }
+
+  .footer-main > p:first-child,
+  .footer-main .footer-copy {
+    order: 3;
   }
 
   .footer-main nav {
@@ -2694,6 +2700,129 @@ footer {
     text-align: center;
   }
 
+  .footer-main > p:first-child,
+  .footer-main .footer-copy {
+    order: 3;
+  }
+
+  /* Mobile Small Text Sizing Enhancements */
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  .button,
+  .text-link {
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-description {
+    font-size: 0.94rem;
+    line-height: 1.68;
+  }
+
+  .hero-location-callout {
+    font-size: 0.95rem;
+  }
+
+  .story-body p {
+    font-size: 0.96rem;
+    line-height: 1.75;
+  }
+
+  .energy-text p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .menu-intro .menu-copy p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .menu-featured > p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .sample-menu-head > p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .menu-tabs button {
+    font-size: 0.78rem;
+  }
+
+  .menu-list p {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .menu-list article > span {
+    font-size: 0.95rem;
+  }
+
+  .menu-page-heading > p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .menu-page-tabs button {
+    font-size: 0.84rem;
+  }
+
+  .menu-category-copy > p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .menu-page-list article p,
+  .menu-item-desc {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .visit-text p {
+    font-size: 0.94rem;
+    line-height: 1.75;
+  }
+
+  .visit-page-column p,
+  .visit-page-column address {
+    font-size: 0.94rem;
+    line-height: 1.75;
+  }
+
+  .visit-details dt {
+    font-size: 0.75rem;
+  }
+
+  .visit-contact > p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .visit-hours-list dt,
+  .visit-contact-list dt {
+    font-size: 0.72rem;
+  }
+
+  .footer-main {
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+
+  .footer-bottom {
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .interior-hero-copy > p:last-child {
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2720,7 +2849,7 @@ footer {
     opacity: 1;
   }
 
-  .menu-intro {
-    --parallax-y: 0px;
+  .menu-intro-bg {
+    transform: none !important;
   }
 }

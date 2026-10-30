@@ -38,15 +38,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function MenuPage() {
+export default async function MenuPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ category?: string; tab?: string }>;
+}) {
+  const resolvedParams = searchParams ? await searchParams : undefined;
   const menu = await getMenu();
+  const initialCategory = resolvedParams?.category || resolvedParams?.tab;
 
   return (
     <div className="site-shell page-menu">
       <MenuJsonLd menu={menu} />
       <SiteHeader />
       <main>
-        <MenuExplorer initialMenu={menu} />
+        <MenuExplorer initialMenu={menu} defaultCategory={initialCategory} />
       </main>
       <SiteFooter />
     </div>

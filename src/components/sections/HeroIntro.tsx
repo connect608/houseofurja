@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ArrowIcon from "../ui/ArrowIcon";
 
 export default function HeroIntro() {
@@ -19,9 +20,9 @@ export default function HeroIntro() {
             <span>1500 CityWest Boulevard · First Floor</span>
             <span>Monday–Friday · 7:00 AM–2:00 PM</span>
           </div>
-          <a className="button hero-button" href="#menu">
+          <Link className="button hero-button" href="/menu">
             Explore Our Menu <ArrowIcon />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

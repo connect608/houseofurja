@@ -8,6 +8,29 @@ import { menuCategories as defaultCategories, MenuCategory, Dish } from "@/data/
 
 interface MenuExplorerProps {
   initialMenu?: Record<string, MenuCategory>;
+  defaultCategory?: string;
+}
+
+function findCategory(names: string[], query?: string | null): string | undefined {
+  if (!query) return undefined;
+  const clean = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const target = clean(query);
+  if (!target) return undefined;
+
+  const exact = names.find((name) => clean(name) === target);
+  if (exact) return exact;
+
+  const contains = names.find(
+    (name) => clean(name).includes(target) || target.includes(clean(name))
+  );
+  if (contains) return contains;
+
+  if (target.includes("special") || target.includes("today")) {
+    const special = names.find((name) => /today|special/i.test(name));
+    if (special) return special;
+  }
+
+  return undefined;
 }
 
 function MenuItemArticle({
@@ -151,9 +174,13 @@ function MenuItemArticle({
 
 export default function MenuExplorer({
   initialMenu = defaultCategories,
+  defaultCategory,
 }: MenuExplorerProps) {
   const categoryNames = Object.keys(initialMenu);
-  const [activeCategory, setActiveCategory] = useState(categoryNames[0] || "");
+  const matchedInitial = findCategory(categoryNames, defaultCategory);
+  const [activeCategory, setActiveCategory] = useState(
+    matchedInitial || categoryNames[0] || ""
+  );
   const [expandedDish, setExpandedDish] = useState<string | null>(null);
   const activeMenu =
     initialMenu[activeCategory] || initialMenu[categoryNames[0]];
@@ -164,6 +191,34 @@ export default function MenuExplorer({
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
   const hasMovedRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const query =
+      urlParams.get("tab") ||
+      urlParams.get("category") ||
+      window.location.hash.replace("#", "") ||
+      defaultCategory;
+    const matched = findCategory(categoryNames, query);
+    if (matched) {
+      setActiveCategory((current) => (current !== matched ? matched : current));
+    }
+  }, [defaultCategory, categoryNames]);
+
+  // Center active tab if it's not the first one on load or when active category changes
+  useEffect(() => {
+    if (!activeCategory) return;
+    const activeIndex = categoryNames.indexOf(activeCategory);
+    if (activeIndex > 0) {
+      const tabButton = document.getElementById(`menu-tab-${activeIndex}`);
+      tabButton?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeCategory, categoryNames]);
 
   useEffect(() => {
     const el = tabsRef.current;

@@ -18,6 +18,7 @@ export default function MenuTeaserSection({
   featuredSpecial,
 }: MenuTeaserSectionProps = {}) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -26,14 +27,14 @@ export default function MenuTeaserSection({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (!sectionRef.current || reduceMotion) return;
+    if (!sectionRef.current || !bgRef.current || reduceMotion) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        sectionRef.current,
-        { "--parallax-y": "-60px" },
+        bgRef.current,
+        { yPercent: -18 },
         {
-          "--parallax-y": "60px",
+          yPercent: 18,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -55,7 +56,9 @@ export default function MenuTeaserSection({
       aria-labelledby="menu-title"
     >
       <div className="container">
-        <div className="menu-intro reveal" ref={sectionRef}>
+        <div className="menu-intro" ref={sectionRef}>
+          <div className="menu-intro-bg" ref={bgRef} aria-hidden="true" />
+          <div className="menu-intro-overlay" aria-hidden="true" />
           <div className="menu-intro-content">
             <div>
               <h2 id="menu-title">
@@ -95,7 +98,7 @@ export default function MenuTeaserSection({
                 {featuredSpecial?.description ||
                   "Tender chicken in a velvety tomato sauce with cultured butter, fenugreek, and warming spice, served alongside fragrant basmati rice and finished with fresh cilantro."}
               </p>
-              <Link className="button button-light" href="/menu">
+              <Link className="button button-light" href="/menu?tab=today-special">
                 View Today’s Menu <ArrowIcon />
               </Link>
             </div>

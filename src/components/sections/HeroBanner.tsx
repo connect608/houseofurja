@@ -44,7 +44,7 @@ export default function HeroBanner() {
         onEnded={startHeroLoop}
         aria-hidden="true"
       >
-        <source src="/assets/hou-banner-video-v1.mp4" type="video/mp4" />
+        <source src="/assets/hou_banner_video_v1.mp4" type="video/mp4" />
       </video>
       <video
         ref={heroLoopVideoRef}
@@ -58,7 +58,7 @@ export default function HeroBanner() {
         aria-hidden="true"
       >
         {loadLoopVideo && (
-          <source src="/assets/hou-banner-video-v2.mp4" type="video/mp4" />
+          <source src="/assets/hou_banner_video_v2.mp4" type="video/mp4" />
         )}
       </video>
     </section>
