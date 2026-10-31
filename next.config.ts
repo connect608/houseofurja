@@ -1,21 +1,51 @@
 import type { NextConfig } from "next";
 
+process.env.NEXT_TELEMETRY_DISABLED = "1";
+
 const nextConfig: NextConfig = {
   /* config options here */
   allowedDevOrigins: [
     "*.airoapp.ai",
     "**.airoapp.ai",
     "83pwmz1x5e.preview.c24.airoapp.ai",
+    "*.godaddy.com",
     "localhost",
     "127.0.0.1",
     "192.168.1.4",
     "192.168.*.*",
     "10.*.*.*",
+    "100.*.*.*",
+    "100.116.*.*",
   ],
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",
     },
+  },
+  turbopack: {},
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ...config.watchOptions,
+        followSymlinks: false,
+        ignored: [
+          "**/node_modules/**",
+          "**/.git/**",
+          "**/.next/**",
+          "/",
+          "/sys/**",
+          "/proc/**",
+          "/dev/**",
+          "/etc/**",
+          "/root/**",
+          "/var/**",
+          "/data/**",
+          "/usr/**",
+          "/tmp/**",
+        ],
+      };
+    }
+    return config;
   },
   async headers() {
     return [
