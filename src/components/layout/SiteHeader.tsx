@@ -36,7 +36,7 @@ export default function SiteHeader() {
     <header
       className={`site-header${
         headerSolid || !isHome ? " header-solid" : ""
-      }${isHome && !headerSolid ? " header-hidden" : ""}`}
+      }`}
     >
       <div className="header-inner">
         <BrandMark />

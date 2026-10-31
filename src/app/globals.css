@@ -2014,6 +2014,11 @@ footer {
 }
 
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js-reveal-enabled .reveal {
   opacity: 0;
   transform: translateY(2.5rem);
   transition:
@@ -2021,7 +2026,7 @@ footer {
     transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal.is-visible {
+html.js-reveal-enabled .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
