@@ -1311,15 +1311,16 @@ h2 i {
 
 .menu-page-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.75rem;
 }
 
 .menu-page-actions .button {
   min-width: 0;
-  flex: 1 1 0;
+  flex: 0 1 auto;
   gap: 0.75rem;
-  padding-inline: 0.75rem;
+  padding-inline: 1.25rem;
   line-height: 1.25;
   text-align: center;
 }

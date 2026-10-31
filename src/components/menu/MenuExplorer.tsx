@@ -404,9 +404,10 @@ export default function MenuExplorer({
             <Link className="button button-light" href="/visit">
               Visit House of Urja <ArrowIcon />
             </Link>
-            <button className="button button-outline" type="button">
+            {/* "Order Online" temporarily hidden; will be made visible at a later time */}
+            {/* <button className="button button-outline" type="button">
               Order Online <ArrowIcon />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
