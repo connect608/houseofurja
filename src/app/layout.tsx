@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, DM_Serif_Display } from "next/font/google";
 import RestaurantJsonLd from "@/components/seo/RestaurantJsonLd";
 import "./globals.css";
 
@@ -15,6 +15,13 @@ const dmSans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-dm-serif",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -111,7 +118,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${cormorantGaramond.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${cormorantGaramond.variable} ${dmSans.variable} ${dmSerifDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <RestaurantJsonLd />

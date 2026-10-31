@@ -10,6 +10,7 @@
   --color-heading-brown: #613211;
   --font-serif: var(--font-serif), 'Cormorant Garamond', serif;
   --font-sans: var(--font-sans), 'DM Sans', sans-serif;
+  --font-dm-serif: var(--font-dm-serif), 'DM Serif Display', 'DM Serif Text', serif;
 }
 
 @layer base {
@@ -1913,7 +1914,14 @@ h2 i {
   text-transform: uppercase;
 }
 
-.visit-hours-list dd,
+.visit-hours-list dd {
+  color: var(--color-white);
+  font-family: var(--font-dm-serif), 'DM Serif Display', 'DM Serif Text', serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+
 .visit-contact-list dd {
   color: var(--color-white);
   font-family: var(--font-serif);

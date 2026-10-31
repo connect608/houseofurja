@@ -42,7 +42,7 @@ export default function VisitExplorer() {
 
             <section aria-labelledby="visit-stay-title">
               <h2 id="visit-stay-title">
-                Stay a While.
+                Stay a While
                 <i>There&apos;s Room for You.</i>
               </h2>
               <p>
