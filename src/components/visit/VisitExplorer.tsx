@@ -1,4 +1,4 @@
-// import Link from "next/link";
+import Link from "next/link";
 import ArrowIcon from "@/components/ui/ArrowIcon";
 
 export default function VisitExplorer() {
@@ -67,6 +67,9 @@ export default function VisitExplorer() {
                   <dd>Closed</dd>
                 </div>
               </dl>
+              <Link className="button button-light" href="/menu">
+                Explore Our Menu <ArrowIcon />
+              </Link>
             </section>
 
             {/* "We'd Love to Hear From You" section temporarily hidden; will be made live later */}
@@ -90,9 +93,6 @@ export default function VisitExplorer() {
                   <dd>Phone Number</dd>
                 </div>
               </dl>
-              <Link className="button button-light" href="/menu">
-                Explore Our Menu <ArrowIcon />
-              </Link>
             </section>
             */}
           </div>
